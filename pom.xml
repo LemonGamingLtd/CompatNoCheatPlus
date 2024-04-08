@@ -37,6 +37,18 @@
         <id>bungeecord-repo</id>
         <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
+    <repository>
+        <id>codemc-nms-repo</id>
+        <url>https://repo.codemc.io/repository/nms-local/</url>
+    </repository>
+    <repository>
+        <id>codemc-repo</id>
+        <url>https://repo.codemc.io/repository/maven-public/</url>
+    </repository>
+    <repository>
+        <id>lemongaming-repo</id>
+        <url>https://repo.lemongaming.ltd/repository/maven-public/</url>
+    </repository>
   </repositories>
 
     <!-- Dependencies -->
@@ -44,7 +56,7 @@
         <dependency>
           <groupId>org.spigotmc</groupId>
           <artifactId>spigot</artifactId>
-          <version>1.8.8-R0.1-SNAPSHOT</version>
+          <version>1.20.4-R0.1-SNAPSHOT</version>
           <scope>provided</scope>
         </dependency>
        <dependency>

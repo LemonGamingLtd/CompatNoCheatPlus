@@ -53,7 +53,7 @@ public class HookInstaBreak extends AbstractHook implements ConfigurableHook, Li
 	
 	protected boolean enabled = true;
 	
-	protected final List<StackEntry> stack = new LinkedList<StackEntry>();
+	protected final LinkedList<StackEntry> stack = new LinkedList<>();
 	
 	@Override
 	public String getHookName() {
@@ -129,7 +129,8 @@ public class HookInstaBreak extends AbstractHook implements ConfigurableHook, Li
 		checkStack();
 		if (!stack.isEmpty()){
 			final Player player = event.getPlayer();
-			final StackEntry entry = stack.get(stack.size() - 1);
+			final StackEntry entry = stack.getLast();
+			if (entry == null) return;
 			if (player.equals(entry.player)) addExemption(entry);
 		}
 	}
@@ -138,8 +139,9 @@ public class HookInstaBreak extends AbstractHook implements ConfigurableHook, Li
 	public void onBlockBreakMONITOR(final BlockBreakEvent event){
 		if (!stack.isEmpty()){
 			final Player player = event.getPlayer();
-			final StackEntry entry = stack.get(stack.size() - 1);
-			if (player.equals(entry.player)) removeExemption(stack.remove(stack.size() - 1));
+			final StackEntry entry = stack.getLast();
+			if (entry == null) return;
+			if (player.equals(entry.player)) removeExemption(stack.pollLast());
 		}
 	}
 	
@@ -158,11 +160,14 @@ public class HookInstaBreak extends AbstractHook implements ConfigurableHook, Li
 	}
 	
 	public void checkStack(){
-		if (stack.isEmpty()) return;
+		if (stack == null || stack.isEmpty()) return;
 		Iterator<StackEntry> it = stack.iterator();
 		final int tick = TickTask.getTick();
 		while (it.hasNext()){
 			final StackEntry entry = it.next();
+			if (entry == null) {
+				continue;
+			}
 			if (entry.isOutdated(tick)) it.remove();
 			if (entry.used) removeExemption(entry);
 		}
